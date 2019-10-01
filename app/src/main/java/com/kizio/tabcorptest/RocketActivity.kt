@@ -17,9 +17,11 @@ class RocketActivity : BaseActivity(), RocketListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        launch = intent.extras?.getParcelable<Launch>(LAUNCH_DATA)
+        launch = intent.extras?.getParcelable(LAUNCH_DATA)
 
-        getLaunchDownloader()?.retrieve(this, "falcon1")
+        launch?.let {
+            getLaunchDownloader()?.retrieve(this, it.getRocketId())
+        }
     }
 
     /**

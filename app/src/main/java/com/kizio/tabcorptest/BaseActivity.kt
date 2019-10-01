@@ -1,7 +1,6 @@
 package com.kizio.tabcorptest
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kizio.tabcorptest.listeners.ErrorListener
@@ -11,8 +10,8 @@ abstract class BaseActivity : AppCompatActivity(), ErrorListener {
 
     private var launchDownloader : LaunchDownloader? = null
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         launchDownloader = LaunchDownloader(this)
     }

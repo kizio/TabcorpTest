@@ -12,7 +12,9 @@
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme"
 			tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-		<activity android:name=".MainActivity">
+		<activity
+				android:name=".MainActivity"
+				android:label="@string/launch_title">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
@@ -20,7 +22,9 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".RocketActivity" />
+		<activity
+				android:name=".RocketActivity"
+				android:label="@string/rocket_title"/>
 	</application>
 
 </manifest>
