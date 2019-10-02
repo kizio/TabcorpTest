@@ -3,14 +3,14 @@ package com.kizio.tabcorptest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
+import android.widget.ExpandableListView
 import com.kizio.tabcorptest.adapter.LaunchAdapter
 import com.kizio.tabcorptest.listeners.LaunchListener
 import com.kizio.tabcorptest.spacexapi.Launch
 import com.kizio.tabcorptest.spacexapi.Launches
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickListener {
+class MainActivity : BaseActivity(), LaunchListener, ExpandableListView.OnChildClickListener {
 
     private var adapter : LaunchAdapter? = null
 
@@ -20,7 +20,7 @@ class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickList
 
         getLaunchDownloader()?.retrieve(this)
 
-        launch_list.onItemClickListener = this
+        launch_list.setOnChildClickListener(this)
     }
 
     /**
@@ -34,16 +34,25 @@ class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickList
         launch_list.setAdapter(adapter)
     }
 
-    override fun onItemClick(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val adapter = adapterView?.adapter
-        val item = adapter?.getItem(position)
+    override fun onChildClick(
+        listView: ExpandableListView?,
+        view: View?,
+        groupPosition: Int,
+        childPosition: Int,
+        id: Long
+    ): Boolean {
+        val item = adapter?.getChild(groupPosition, childPosition)
 
-        if (item is Launch) {
+        return if (item is Launch) {
             val intent = Intent(this, RocketActivity::class.java)
 
-            intent.extras?.putParcelable(RocketActivity.LAUNCH_DATA, item)
+            intent.putExtra(RocketActivity.LAUNCH_DATA, item)
 
             startActivity(intent)
+
+            true
+        } else {
+            false
         }
     }
 

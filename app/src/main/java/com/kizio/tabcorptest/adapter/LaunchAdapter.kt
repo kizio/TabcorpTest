@@ -43,7 +43,7 @@ class LaunchAdapter (private val context: Context, private val launches: Launche
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
-        return false
+        return true
     }
 
     override fun hasStableIds(): Boolean {

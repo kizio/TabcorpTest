@@ -1,9 +1,13 @@
 package com.kizio.tabcorptest
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import com.kizio.tabcorptest.listeners.RocketListener
 import com.kizio.tabcorptest.spacexapi.Launch
 import com.kizio.tabcorptest.spacexapi.Rocket
+import kotlinx.android.synthetic.main.activity_rocket.*
 
 class RocketActivity : BaseActivity(), RocketListener {
 
@@ -13,11 +17,13 @@ class RocketActivity : BaseActivity(), RocketListener {
 
     private var launch : Launch? = null
 
+    private var rocket : Rocket? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_rocket)
 
-        launch = intent.extras?.getParcelable(LAUNCH_DATA)
+        launch = intent.getParcelableExtra(LAUNCH_DATA)
 
         launch?.let {
             getLaunchDownloader()?.retrieve(this, it.getRocketId())
@@ -30,6 +36,18 @@ class RocketActivity : BaseActivity(), RocketListener {
      * @param rocket A [Rocket] containing the downloaded data
      */
     override fun onReceiveRocket(rocket: Rocket) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        open_wikipedia.isEnabled = true
+
+        this.rocket = rocket
+    }
+
+    fun onClickOpenWikipedia(view: View?) {
+        rocket?.let {
+            val wikipediaUrl = it.getWikipedia()
+
+            if (wikipediaUrl != null && wikipediaUrl.isNotEmpty()) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(wikipediaUrl)))
+            }
+        }
     }
 }

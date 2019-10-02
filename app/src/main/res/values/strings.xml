@@ -6,4 +6,5 @@
     <string name="sort_by_year">Year</string>
     <string name="sort_by_mission">Name</string>
     <string name="filter_by">Filter By Success</string>
+    <string name="open_wikipedia">Open Wikipedia Page</string>
 </resources>
