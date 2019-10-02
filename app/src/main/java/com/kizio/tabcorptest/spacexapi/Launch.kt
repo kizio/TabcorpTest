@@ -47,7 +47,7 @@ class Launch : Parcelable {
         return data?.optString("mission_name")
     }
 
-    private fun getDate() : Date? {
+    fun getDate() : Date? {
         val time = data?.optLong("launch_date_unix")
 
         // SpaceX uses the UNIX time in seconds, Java in milliseconds.

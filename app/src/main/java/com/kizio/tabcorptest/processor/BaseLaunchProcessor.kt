@@ -4,7 +4,7 @@ import com.kizio.tabcorptest.spacexapi.Launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-abstract class BaseLaunchProcessor {
+abstract class BaseLaunchProcessor<T : Comparable<T>> {
 
     fun process(launches: List<Launch>, map: TreeMap<String, ArrayList<Launch>>) {
         map.clear()
@@ -16,7 +16,7 @@ abstract class BaseLaunchProcessor {
 
             if (key != null) {
                 if (!map.containsKey(key)) {
-                    map[key] = ArrayList<Launch>()
+                    map[key] = ArrayList()
                 }
 
                 map[key]?.add(launch)
@@ -26,10 +26,13 @@ abstract class BaseLaunchProcessor {
 
     protected abstract fun getKey(launch: Launch?): String?
 
+    protected abstract fun getSortKey(launch: Launch?): T?
+
+    @Suppress("UNUSED")
     private fun getComparator(): Comparator<Launch> {
-        return Comparator<Launch> { launchA, launchB ->
-            val keyA = getKey(launchA)
-            val keyB = getKey(launchB)
+        return Comparator { launchA, launchB ->
+            val keyA = getSortKey(launchA)
+            val keyB = getSortKey(launchB)
 
             if (keyA != null) {
                 if (keyB != null) {
