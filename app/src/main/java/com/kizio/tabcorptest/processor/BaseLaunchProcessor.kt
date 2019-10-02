@@ -10,6 +10,7 @@ abstract class BaseLaunchProcessor {
         map.clear()
 
         Collections.sort(launches, getComparator())
+
         for (launch in launches) {
             val key = getKey(launch)
             val values: List<Launch>?
@@ -26,5 +27,20 @@ abstract class BaseLaunchProcessor {
 
     protected abstract fun getKey (launch: Launch?) : String?
 
-    protected abstract fun getComparator () : Comparator<Launch>
-}
+    private fun getComparator(): Comparator<Launch> {
+        return Comparator<Launch> { launchA, launchB ->
+            val keyA = getKey(launchA)
+            val keyB = getKey(launchB)
+
+            if (keyA != null) {
+                if (keyB != null) {
+                    keyA.compareTo(keyB)
+                } else {
+                    -1
+                }
+            } else if (keyB != null) {
+                1
+            } else {
+                0
+            }
+        }}
