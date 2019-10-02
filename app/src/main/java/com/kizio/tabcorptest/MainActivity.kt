@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickList
      * @param launches A [Launches] object containing the downloaded data
      */
     override fun onReceiveLaunches(launches: Launches) {
-        launch_list.adapter = LaunchAdapter(this, launches)
+        launch_list.setAdapter(LaunchAdapter(this, launches))
     }
 
     override fun onItemClick(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {

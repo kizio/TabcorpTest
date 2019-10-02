@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
+import com.kizio.tabcorptest.processor.MissionProcessor
+import com.kizio.tabcorptest.processor.YearProcessor
 import com.kizio.tabcorptest.spacexapi.Launch
 import com.kizio.tabcorptest.spacexapi.Launches
 import java.util.*
@@ -12,10 +14,10 @@ import kotlin.collections.ArrayList
 
 class LaunchAdapter (private val context: Context, private val launches: Launches?) : BaseExpandableListAdapter() {
 
-    private val launchesToDisplay = TreeMap<String, List<Launch>>()
+    private val launchesToDisplay = TreeMap<String, ArrayList<Launch>>()
 
     init {
-        setDisplayFormat(true, false)
+        setDisplayFormat(false, false)
     }
 
     override fun getGroup(groupPosition: Int): String {
@@ -83,6 +85,15 @@ class LaunchAdapter (private val context: Context, private val launches: Launche
 
     fun setDisplayFormat(isOrderByYear: Boolean, isFilterByFailure: Boolean) {
         val filtered = filterLaunches(isFilterByFailure)
+        val processor = if (isOrderByYear) {
+            YearProcessor()
+        } else {
+            MissionProcessor()
+        }
+
+        if (filtered != null) {
+            processor.process(filtered, launchesToDisplay)
+        }
     }
 
     private fun filterLaunches(isFilterByFailure: Boolean) : List<Launch>? {

@@ -6,14 +6,13 @@ import kotlin.collections.ArrayList
 
 abstract class BaseLaunchProcessor {
 
-    fun process (launches: List<Launch>, map: TreeMap<String, ArrayList<Launch>>)  {
+    fun process(launches: List<Launch>, map: TreeMap<String, ArrayList<Launch>>) {
         map.clear()
 
         Collections.sort(launches, getComparator())
 
         for (launch in launches) {
             val key = getKey(launch)
-            val values: List<Launch>?
 
             if (key != null) {
                 if (!map.containsKey(key)) {
@@ -25,7 +24,7 @@ abstract class BaseLaunchProcessor {
         }
     }
 
-    protected abstract fun getKey (launch: Launch?) : String?
+    protected abstract fun getKey(launch: Launch?): String?
 
     private fun getComparator(): Comparator<Launch> {
         return Comparator<Launch> { launchA, launchB ->
@@ -43,4 +42,6 @@ abstract class BaseLaunchProcessor {
             } else {
                 0
             }
-        }}
+        }
+    }
+}
