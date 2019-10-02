@@ -94,6 +94,8 @@ class LaunchAdapter (private val context: Context, private val launches: Launche
         if (filtered != null) {
             processor.process(filtered, launchesToDisplay)
         }
+
+        notifyDataSetChanged()
     }
 
     private fun filterLaunches(isFilterByFailure: Boolean) : List<Launch>? {

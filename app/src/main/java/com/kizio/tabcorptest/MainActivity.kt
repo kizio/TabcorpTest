@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickListener {
 
+    private var adapter : LaunchAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +29,9 @@ class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickList
      * @param launches A [Launches] object containing the downloaded data
      */
     override fun onReceiveLaunches(launches: Launches) {
-        launch_list.setAdapter(LaunchAdapter(this, launches))
+        adapter = LaunchAdapter(this, launches)
+
+        launch_list.setAdapter(adapter)
     }
 
     override fun onItemClick(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -41,5 +45,9 @@ class MainActivity : BaseActivity(), LaunchListener, AdapterView.OnItemClickList
 
             startActivity(intent)
         }
+    }
+
+    fun onSort(view: View?) {
+        adapter?.setDisplayFormat(sort_switch.isChecked, filter_switch.isChecked)
     }
 }
