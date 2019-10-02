@@ -12,6 +12,8 @@ class Launch : Parcelable {
 
         private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
 
+        private val yearFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+
         override fun createFromParcel(parcel: Parcel): Launch {
             return Launch(parcel)
         }
@@ -58,6 +60,25 @@ class Launch : Parcelable {
 
     fun getRocketId() : String? {
         return data?.optJSONObject("rocket")?.optString("rocket_id")
+    }
+
+    fun isLaunchSuccess() : Boolean {
+        return data?.optBoolean("launch_success") ?: false
+    }
+
+    fun getYear() : String? {
+        return getDate()?.let { yearFormat.format(it)}
+    }
+
+    /**
+     * Gets the first letter of the mission name as an upper case [String]. Whilst returning a
+     * character might be easier, this allows the same code to be used to bucket the flight list
+     * by year or name.
+     *
+     * @return The first letter of the mission name in a [String]
+     */
+    fun getFirstLetter() : String? {
+        return getMissionName()?.substring(0, 1)?.toUpperCase(Locale.ENGLISH)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
